@@ -1,3 +1,16 @@
 #gameboard {
   width: 750px;
 }
+
+#gameboard td {
+    border: 2px solid black;
+    height: 50px;
+    width: 50px;
+    text-align: center;
+    font-size: 40px;
+    font-family:'Trebuchet MS'
+}
+
+h1 {
+  text-align: center;
+}
