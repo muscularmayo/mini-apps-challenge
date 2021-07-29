@@ -50,14 +50,43 @@ when a cell is clicked, data is changed
 
 do i need to create a board object/array??
 
-if i have an array of array's... board[0][0] is the first spot, board[2][2] is the last spot
+it's just one array of 9 items actually, the cells element makes it clear
 
 on the first click, x, on the second click, o,
-*/
 
-const board = [[null, null, null],
-               [null, null, null],
-               [null, null, null]];
+player properties?
+x player,
+o player
+
+turn:
+true means x turn
+false means o turn
+*/
+let xScore = 0; //total wins
+let oScore = 0; //total wins
+
+let xWin = false;
+let oWin = false;
+
+//when either of these become true, increment the corresponding score - and game is over?
+
+
+document.getElementById('score').innerText = `X: ${xScore}, O: ${oScore}`;
+
+const board = [null, null, null, null, null, null, null, null, null];
+const state = {
+  gameOver: false
+}; //do i need state in any sense beside this?? maybe i can keep board and turn in here??
+
+let turn = true;
+
+var giveCellsEventListeners = function () {
+  if (turn) { //x's turn
+    cells.forEach(element => element.addEventListener('click', listener)) //confused rn how to do this
+  } else { //o's turn
+
+  }
+};
 
 
 
