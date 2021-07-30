@@ -91,6 +91,8 @@ var giveCellsEventListeners = function () {
 
 //table.on('click', 'td', clickFunction)
 var clickFunction = function (click) {
+  console.log(click.target, this); //click.target = this apparently
+  //how do i know what number cell is being clicked however? i need to develop my win condition
   console.log('you were clicked pog', this.innerText);
   if (this.innerText === '') {
     if (state.turn === true) {
