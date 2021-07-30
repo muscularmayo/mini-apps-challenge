@@ -2,14 +2,30 @@ const gameboard = document.getElementById('gameboard');
 const head = document.querySelector('head');
 const body = document.querySelector('html').querySelector('body');
 const cells = document.querySelectorAll('td');
+const score = document.getElementById('score');
 
-
+/*
 console.log('document', document);
 console.log('queryselector(head)', head);
 console.log('gameboard', gameboard);
 console.log('body', body);
 console.log('cells', cells);
 //why is this NULL ??????
+*/
+//this (document.queryselector('anything but head')) was returning null because script was loading before page did
+// i attached it to the end and it works again
+
+
+//const board = [null, null, null, null, null, null, null, null, null];
+const state = {
+  gameOver: false,
+  turn: true,
+  xScore: 0,
+  oScore: 0,
+  board: [null, null, null, null, null, null, null, null, null]
+}; //currently i am keeping x wins, o wins, the current state of the board, x/o turn, and if the game is over
+//turn is being checked and manipulated in my clickFunction, on each successful click turn changes
+//xScore/oScore/gameOver should all be happening in gameEnd(cell) right now, we update the score, and then
 
 // moving script src to the bottom of the page makes it work
 // i was apparently loading the script before the rest of the html was rendered and couldn't access it?
@@ -65,40 +81,36 @@ false means o turn
 let xScore = 0; //total wins
 let oScore = 0; //total wins
 */
-let xWin = false;
-let oWin = false;
+
 //when either of these become true, increment the corresponding score - and game is over?
 
 
 //essentially, i need to create a function that that places an X on the board... but it needs to go in a specific spot.
-
-
-//const board = [null, null, null, null, null, null, null, null, null];
-const state = {
-  gameOver: false,
-  turn: true,
-  xScore: 0,
-  oScore: 0,
-  board: [null, null, null, null, null, null, null, null, null]
-}; //do i need state in any sense beside this?? maybe i can keep board and turn in here??
 
 document.getElementById('score').innerText = `X: ${state.xScore}, O: ${state.oScore}`;
 
 //i can use this function to add the onclick="clickFunction" to everything, then I can use "clickFunction" to do x and o
 var giveCellsEventListeners = function () {
   cells.forEach( (element, index) => {
+    element.innerText = '';
     element.addEventListener('click', clickFunction);
     element.setAttribute('id', index); //set each cell with a unique id so we can use it to target board state?
   });
 
 };
 
+var removeCellsEventListeners = function () {
+  cells.forEach ( (element, index) => {
+    element.removeEventListener('click', clickFunction);
+  });
+};
+
 //table.on('click', 'td', clickFunction)
 var clickFunction = function (click) {
-  console.log(this.id, this); //click.target = this apparently
+  //console.log(this.id, this); //click.target = this apparently
   //how do i know what number cell is being clicked however? i need to develop my win condition
   // i can give id's to 1 through 9 i suppose
-  console.log('click', click.target);
+  //console.log('click', click.target);
   if (this.innerText === '') {
     if (state.turn === true) {
       this.innerText = 'X';
@@ -156,80 +168,132 @@ var checkWinningBoard = function(cell) {
 */
 
 var checkWinningBoard = function(cell) {
-  var scoreboard = cell.innerText + 'Score';
-  console.log('cell.innerText + Score', scoreboard);
-  scoreboard = state.scoreboard;
-  console.log('state[scoreboard]', scoreboard);
-
+  console.log(parent);
   if (cell.id === '0') {
     if (state.board[0] === state.board[1] && state.board[1] === state.board[2]) {
       alert(`${state.board[0]} has won the game!`);
+      gameEnd(cell);
     } else if (state.board[0] === state.board[3] && state.board[3] === state.board[6]) {
       alert(`${state.board[0]} has won the game!`);
+      gameEnd(cell);
     } else if (state.board[0] === state.board[4] && state.board[4] === state.board[8]) {
       alert(`${state.board[0]} has won the game!`);
+      gameEnd(cell);
     }
   } else if (cell.id === '1') {
     if (state.board[0] === state.board[1] && state.board[1] === state.board[2]) {
       alert(`${state.board[0]} has won the game!`);
+      gameEnd(cell);
     } else if (state.board[1] === state.board[4] && state.board[4] === state.board[7]) {
       alert(`${state.board[1]} has won the game!`);
+      gameEnd(cell);
     }
   } else if (cell.id === '2') {
     if (state.board[0] === state.board[1] && state.board[1] === state.board[2]) {
       alert(`${state.board[0]} has won the game!`);
+      gameEnd(cell);
     } else if (state.board[2] === state.board[4] && state.board[4] === state.board[6]) {
       alert(`${state.board[2]} has won the game!`);
+      gameEnd(cell);
     } else if (state.board[2] === state.board[5] && state.board[5] === state.board[8]) {
       alert(`${state.board[2]} has won the game!`);
+      gameEnd(cell);
     }
   } else if (cell.id === '3') {
     if (state.board[3] === state.board[4] && state.board[4] === state.board[5]) {
       alert(`${state.board[3]} has won the game!`);
+      gameEnd(cell);
     } else if (state.board[0] === state.board[3] && state.board[3] === state.board[6]) {
       alert(`${state.board[0]} has won the game!`);
+      gameEnd(cell);
     }
   } else if (cell.id === '4') {
     if (state.board[3] === state.board[4] && state.board[4] === state.board[5]) {
       alert(`${state.board[3]} has won the game!`);
+      gameEnd(cell);
     } else if (state.board[1] === state.board[4] && state.board[4] === state.board[7]) {
       alert(`${state.board[1]} has won the game!`);
+      gameEnd(cell);
     } else if (state.board[0] === state.board[4] && state.board[4] === state.board[8]) {
       alert(`${state.board[0]} has won the game!`);
+      gameEnd(cell);
     } else if (state.board[2] === state.board[4] && state.board[4] === state.board[6]) {
       alert(`${state.board[2]} has won the game!`);
+      gameEnd(cell);
     }
   } else if (cell.id === '5') {
     if (state.board[3] === state.board[4] && state.board[4] === state.board[5]) {
       alert(`${state.board[3]} has won the game!`);
+      gameEnd(cell);
     } else if (state.board[2] === state.board[5] && state.board[5] === state.board[8]) {
       alert(`${state.board[2]} has won the game!`);
+      gameEnd(cell);
     }
   } else if (cell.id === '6') {
     if (state.board[2] === state.board[4] && state.board[4] === state.board[6]) {
       alert(`${state.board[2]} has won the game!`);
+      gameEnd(cell);
     } else if (state.board[6] === state.board[7] && state.board[7] === state.board[8]) {
       alert(`${state.board[6]} has won the game!`);
+      gameEnd(cell);
     } else if (state.board[0] === state.board[3] && state.board[3] === state.board[6]) {
       alert(`${state.board[0]} has won the game!`);
+      gameEnd(cell);
     }
   } else if (cell.id === '7') {
     if (state.board[6] === state.board[7] && state.board[7] === state.board[8]) {
       alert(`${state.board[6]} has won the game!`);
+      gameEnd(cell);
     } else if (state.board[1] === state.board[4] && state.board[4] === state.board[7]) {
       alert(`${state.board[1]} has won the game!`);
+      gameEnd(cell);
     }
   } else if (cell.id === '8') {
     if (state.board[6] === state.board[7] && state.board[7] === state.board[8]) {
       alert(`${state.board[6]} has won the game!`);
+      gameEnd(cell);
     } else if (state.board[2] === state.board[5] && state.board[5] === state.board[8]) {
       alert(`${state.board[2]} has won the game!`);
+      gameEnd(cell);
     } else if (state.board[0] === state.board[4] && state.board[4] === state.board[8]) {
       alert(`${state.board[0]} has won the game!`);
+      gameEnd(cell);
     }
   }
-  scoreboard++;
-  console.log(scoreboard);
+};
+
+var gameEnd = function (cell) {
+  const score = document.getElementById('score');
+
+  console.log('cell', cell);
+  let xoScore = cell.innerText.toLowerCase() + 'Score';
+  console.log('cell.innerText + Score', xoScore);
+  state[xoScore] = state[xoScore] + 1;
+  console.log('state[xoScore]', state[xoScore]);
+  console.log('xoScore', xoScore);
+  state.gameOver = true;
+  if (state.gameOver === true) {
+    removeCellsEventListeners();
+    let temp = score;
+    body.removeChild(score);
+    let p = document.createElement('p');
+    let text = document.createTextNode(`X: ${state.xScore}, O: ${state.oScore}`);
+    p.appendChild(text);
+    body.appendChild(p);
+
+  }
+
+
+  //on gameEnd i need to end the functionality of the game, and update the score, and reload that portion of the page, and also
+  //research xmlhttprequest
+
+
+
 };
 
 
+var gameStart = function () {
+  state.gameOver = false;
+  state.board = [null, null, null, null, null, null, null, null, null, null];
+  giveCellsEventListeners();
+};
