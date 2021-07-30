@@ -98,7 +98,7 @@ var clickFunction = function (click) {
   console.log(this.id, this); //click.target = this apparently
   //how do i know what number cell is being clicked however? i need to develop my win condition
   // i can give id's to 1 through 9 i suppose
-  console.log('this, id, text:', this, this.id, this.innerText);
+  console.log('click', click.target);
   if (this.innerText === '') {
     if (state.turn === true) {
       this.innerText = 'X';
@@ -112,8 +112,7 @@ var clickFunction = function (click) {
   } else {
     alert('pick an unoccupied spot');
   }
-  console.log(state.board);
-  checkWinningBoard();
+  checkWinningBoard(click.target);
 
 };
 giveCellsEventListeners();
@@ -133,8 +132,8 @@ giveCellsEventListeners();
   0,3,6; 1,4,7; 2,5,8
   0,4,8; 2,4,6;
 
-*/
-var checkWinningBoard = function() {
+
+var checkWinningBoard = function(cell) {
   if state
   if (state.board[0] === state.board[1] && state.board[1] === state.board[2]) {
     alert(`${state.board[0]} has won the game!`);
@@ -153,4 +152,84 @@ var checkWinningBoard = function() {
   } else if (state.board[2] === state.board[4] && state.board[4] === state.board[6]) {
     alert(`${state.board[2]} has won the game!`);
   }
+}; my game winning function is failing on 3 nulls rn lol, null wins! smh
+*/
+
+var checkWinningBoard = function(cell) {
+  var scoreboard = cell.innerText + 'Score';
+  console.log('cell.innerText + Score', scoreboard);
+  scoreboard = state.scoreboard;
+  console.log('state[scoreboard]', scoreboard);
+
+  if (cell.id === '0') {
+    if (state.board[0] === state.board[1] && state.board[1] === state.board[2]) {
+      alert(`${state.board[0]} has won the game!`);
+    } else if (state.board[0] === state.board[3] && state.board[3] === state.board[6]) {
+      alert(`${state.board[0]} has won the game!`);
+    } else if (state.board[0] === state.board[4] && state.board[4] === state.board[8]) {
+      alert(`${state.board[0]} has won the game!`);
+    }
+  } else if (cell.id === '1') {
+    if (state.board[0] === state.board[1] && state.board[1] === state.board[2]) {
+      alert(`${state.board[0]} has won the game!`);
+    } else if (state.board[1] === state.board[4] && state.board[4] === state.board[7]) {
+      alert(`${state.board[1]} has won the game!`);
+    }
+  } else if (cell.id === '2') {
+    if (state.board[0] === state.board[1] && state.board[1] === state.board[2]) {
+      alert(`${state.board[0]} has won the game!`);
+    } else if (state.board[2] === state.board[4] && state.board[4] === state.board[6]) {
+      alert(`${state.board[2]} has won the game!`);
+    } else if (state.board[2] === state.board[5] && state.board[5] === state.board[8]) {
+      alert(`${state.board[2]} has won the game!`);
+    }
+  } else if (cell.id === '3') {
+    if (state.board[3] === state.board[4] && state.board[4] === state.board[5]) {
+      alert(`${state.board[3]} has won the game!`);
+    } else if (state.board[0] === state.board[3] && state.board[3] === state.board[6]) {
+      alert(`${state.board[0]} has won the game!`);
+    }
+  } else if (cell.id === '4') {
+    if (state.board[3] === state.board[4] && state.board[4] === state.board[5]) {
+      alert(`${state.board[3]} has won the game!`);
+    } else if (state.board[1] === state.board[4] && state.board[4] === state.board[7]) {
+      alert(`${state.board[1]} has won the game!`);
+    } else if (state.board[0] === state.board[4] && state.board[4] === state.board[8]) {
+      alert(`${state.board[0]} has won the game!`);
+    } else if (state.board[2] === state.board[4] && state.board[4] === state.board[6]) {
+      alert(`${state.board[2]} has won the game!`);
+    }
+  } else if (cell.id === '5') {
+    if (state.board[3] === state.board[4] && state.board[4] === state.board[5]) {
+      alert(`${state.board[3]} has won the game!`);
+    } else if (state.board[2] === state.board[5] && state.board[5] === state.board[8]) {
+      alert(`${state.board[2]} has won the game!`);
+    }
+  } else if (cell.id === '6') {
+    if (state.board[2] === state.board[4] && state.board[4] === state.board[6]) {
+      alert(`${state.board[2]} has won the game!`);
+    } else if (state.board[6] === state.board[7] && state.board[7] === state.board[8]) {
+      alert(`${state.board[6]} has won the game!`);
+    } else if (state.board[0] === state.board[3] && state.board[3] === state.board[6]) {
+      alert(`${state.board[0]} has won the game!`);
+    }
+  } else if (cell.id === '7') {
+    if (state.board[6] === state.board[7] && state.board[7] === state.board[8]) {
+      alert(`${state.board[6]} has won the game!`);
+    } else if (state.board[1] === state.board[4] && state.board[4] === state.board[7]) {
+      alert(`${state.board[1]} has won the game!`);
+    }
+  } else if (cell.id === '8') {
+    if (state.board[6] === state.board[7] && state.board[7] === state.board[8]) {
+      alert(`${state.board[6]} has won the game!`);
+    } else if (state.board[2] === state.board[5] && state.board[5] === state.board[8]) {
+      alert(`${state.board[2]} has won the game!`);
+    } else if (state.board[0] === state.board[4] && state.board[4] === state.board[8]) {
+      alert(`${state.board[0]} has won the game!`);
+    }
+  }
+  scoreboard++;
+  console.log(scoreboard);
 };
+
+
