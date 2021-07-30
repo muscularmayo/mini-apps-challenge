@@ -61,32 +61,56 @@ o player
 turn:
 true means x turn
 false means o turn
-*/
+
 let xScore = 0; //total wins
 let oScore = 0; //total wins
-
+*/
 let xWin = false;
 let oWin = false;
 
+cells[8].innerText = 'X';
+console.log(cells[8].innerText);
+console.log(JSON.stringify(cells[0].innerText));
 //when either of these become true, increment the corresponding score - and game is over?
 
 
-document.getElementById('score').innerText = `X: ${xScore}, O: ${oScore}`;
+//essentially, i need to create a function that that places an X on the board... but it needs to go in a specific spot.
 
-const board = [null, null, null, null, null, null, null, null, null];
+
+//const board = [null, null, null, null, null, null, null, null, null];
 const state = {
-  gameOver: false
+  gameOver: false,
+  turn: true,
+  xScore: 0,
+  oScore: 0,
+  board: [null, null, null, null, null, null, null, null, null]
 }; //do i need state in any sense beside this?? maybe i can keep board and turn in here??
 
-let turn = true;
+document.getElementById('score').innerText = `X: ${state.xScore}, O: ${state.oScore}`;
 
+//i can use this function to add the onclick="clickFunction" to everything, then I can use "clickFunction" to do x and o
 var giveCellsEventListeners = function () {
-  if (turn) { //x's turn
-    cells.forEach(element => element.addEventListener('click', listener)) //confused rn how to do this
-  } else { //o's turn
-
-  }
+  cells.forEach(element => element.addEventListener('click', clickFunction)); //confused rn how to do this
 };
+
+//table.on('click', 'td', clickFunction)
+var clickFunction = function (cell) {
+  console.log('you were clicked pog', cell);
+  if (cell.innerText !== '') {
+    if (state.turn === true) {
+      cell.innerText = 'X';
+      state.turn = !state.turn;
+    } else {
+      cell.innerText = 'O';
+      state.turn = !state.turn;
+    }
+  } else {
+    alert('pick an unoccupied spot');
+  }
+
+};
+
+giveCellsEventListeners();
 
 
 
