@@ -86,28 +86,71 @@ document.getElementById('score').innerText = `X: ${state.xScore}, O: ${state.oSc
 
 //i can use this function to add the onclick="clickFunction" to everything, then I can use "clickFunction" to do x and o
 var giveCellsEventListeners = function () {
-  cells.forEach(element => element.addEventListener('click', clickFunction)); //confused rn how to do this
+  cells.forEach( (element, index) => {
+    element.addEventListener('click', clickFunction);
+    element.setAttribute('id', index); //set each cell with a unique id so we can use it to target board state?
+  });
+
 };
 
 //table.on('click', 'td', clickFunction)
 var clickFunction = function (click) {
-  console.log(click.target, this); //click.target = this apparently
+  console.log(this.id, this); //click.target = this apparently
   //how do i know what number cell is being clicked however? i need to develop my win condition
-  console.log('you were clicked pog', this.innerText);
+  // i can give id's to 1 through 9 i suppose
+  console.log('this, id, text:', this, this.id, this.innerText);
   if (this.innerText === '') {
     if (state.turn === true) {
       this.innerText = 'X';
+      state.board[this.id] = this.innerText;
       state.turn = !state.turn;
     } else {
       this.innerText = 'O';
+      state.board[this.id] = this.innerText;
       state.turn = !state.turn;
     }
   } else {
     alert('pick an unoccupied spot');
   }
+  console.log(state.board);
+  checkWinningBoard();
 
 };
 giveCellsEventListeners();
 
+/* winning board conditions
+  [x,x,x, ...]
+  [-,-,-,x,x,x,-,-,-]
+  []
+  doing it like this seems wildly inefficient, there must be a better way...
+  [0,1,2
+   3,4,5
+   6,7,8]
 
+  i can do, if 0-2.innerText are all equal, 3-5.innerText, 6-8.innerText equal
+  winning board states:
+  0,1,2; 3,4,5; 6,7,8
+  0,3,6; 1,4,7; 2,5,8
+  0,4,8; 2,4,6;
 
+*/
+var checkWinningBoard = function() {
+  if state
+  if (state.board[0] === state.board[1] && state.board[1] === state.board[2]) {
+    alert(`${state.board[0]} has won the game!`);
+  } else if (state.board[3] === state.board[4] && state.board[4] === state.board[5]) {
+    alert(`${state.board[3]} has won the game!`);
+  } else if (state.board[6] === state.board[7] && state.board[7] === state.board[8]) {
+    alert(`${state.board[6]} has won the game!`);
+  } else if (state.board[0] === state.board[3] && state.board[3] === state.board[6]) {
+    alert(`${state.board[0]} has won the game!`);
+  } else if (state.board[1] === state.board[4] && state.board[4] === state.board[7]) {
+    alert(`${state.board[1]} has won the game!`);
+  } else if (state.board[2] === state.board[5] && state.board[5] === state.board[8]) {
+    alert(`${state.board[2]} has won the game!`);
+  } else if (state.board[0] === state.board[4] && state.board[4] === state.board[8]) {
+    alert(`${state.board[0]} has won the game!`);
+  } else if (state.board[2] === state.board[4] && state.board[4] === state.board[6]) {
+    alert(`${state.board[2]} has won the game!`);
+  }
+};
