@@ -15,20 +15,20 @@ console.log('cells', cells);
 //this (document.queryselector('anything but head')) was returning null because script was loading before page did
 // i attached it to the end and it works again
 
-
+//i can add a moveCount, and if that reaches 9 and gameOver is false, that's gonna be a tie?
 //const board = [null, null, null, null, null, null, null, null, null];
 const state = {
   gameOver: false,
   turn: true,
   xScore: 0,
   oScore: 0,
+  moveCount: 0,
+  tieCount: 0,
+  tieflag: 0,
   board: [null, null, null, null, null, null, null, null, null]
 }; //currently i am keeping x wins, o wins, the current state of the board, x/o turn, and if the game is over
 //turn is being checked and manipulated in my clickFunction, on each successful click turn changes
 //xScore/oScore/gameOver should all be happening in gameEnd(cell) right now, we update the score, and then
-
-// moving script src to the bottom of the page makes it work
-// i was apparently loading the script before the rest of the html was rendered and couldn't access it?
 
 
 // i currently have a css page that is apparently not needed - i will just detach it when it's time to finish lol, but for now it helps me kinda see things i think.
@@ -87,7 +87,7 @@ let oScore = 0; //total wins
 
 //essentially, i need to create a function that that places an X on the board... but it needs to go in a specific spot.
 
-document.getElementById('score').innerText = `X: ${state.xScore}, O: ${state.oScore}`;
+document.getElementById('score').innerText = `X: ${state.xScore}, O: ${state.oScore}, ties: ${state.tieCount}`;
 
 //i can use this function to add the onclick="clickFunction" to everything, then I can use "clickFunction" to do x and o
 var giveCellsEventListeners = function () {
@@ -115,10 +115,12 @@ var clickFunction = function (click) {
     if (state.turn === true) {
       this.innerText = 'X';
       state.board[this.id] = this.innerText;
+      state.moveCount = state.moveCount + 1;
       state.turn = !state.turn;
     } else {
       this.innerText = 'O';
       state.board[this.id] = this.innerText;
+      state.moveCount = state.moveCount + 1;
       state.turn = !state.turn;
     }
   } else {
@@ -168,119 +170,122 @@ var checkWinningBoard = function(cell) {
 */
 
 var checkWinningBoard = function(cell) {
-  console.log(parent);
+  console.log(state.moveCount);
   if (cell.id === '0') {
     if (state.board[0] === state.board[1] && state.board[1] === state.board[2]) {
-      alert(`${state.board[0]} has won the game!`);
       gameEnd(cell);
+      alert(`${state.board[0]} has won the game!`);
     } else if (state.board[0] === state.board[3] && state.board[3] === state.board[6]) {
-      alert(`${state.board[0]} has won the game!`);
       gameEnd(cell);
+      alert(`${state.board[0]} has won the game!`);
     } else if (state.board[0] === state.board[4] && state.board[4] === state.board[8]) {
-      alert(`${state.board[0]} has won the game!`);
       gameEnd(cell);
+      alert(`${state.board[0]} has won the game!`);
     }
   } else if (cell.id === '1') {
     if (state.board[0] === state.board[1] && state.board[1] === state.board[2]) {
+      gameEnd(cell);
       alert(`${state.board[0]} has won the game!`);
-      gameEnd(cell);
     } else if (state.board[1] === state.board[4] && state.board[4] === state.board[7]) {
-      alert(`${state.board[1]} has won the game!`);
       gameEnd(cell);
+      alert(`${state.board[1]} has won the game!`);
     }
   } else if (cell.id === '2') {
     if (state.board[0] === state.board[1] && state.board[1] === state.board[2]) {
+      gameEnd(cell);
       alert(`${state.board[0]} has won the game!`);
-      gameEnd(cell);
     } else if (state.board[2] === state.board[4] && state.board[4] === state.board[6]) {
-      alert(`${state.board[2]} has won the game!`);
       gameEnd(cell);
+      alert(`${state.board[2]} has won the game!`);
     } else if (state.board[2] === state.board[5] && state.board[5] === state.board[8]) {
-      alert(`${state.board[2]} has won the game!`);
       gameEnd(cell);
+      alert(`${state.board[2]} has won the game!`);
     }
   } else if (cell.id === '3') {
     if (state.board[3] === state.board[4] && state.board[4] === state.board[5]) {
+      gameEnd(cell);
       alert(`${state.board[3]} has won the game!`);
-      gameEnd(cell);
     } else if (state.board[0] === state.board[3] && state.board[3] === state.board[6]) {
-      alert(`${state.board[0]} has won the game!`);
       gameEnd(cell);
+      alert(`${state.board[0]} has won the game!`);
     }
   } else if (cell.id === '4') {
     if (state.board[3] === state.board[4] && state.board[4] === state.board[5]) {
+      gameEnd(cell);
       alert(`${state.board[3]} has won the game!`);
-      gameEnd(cell);
     } else if (state.board[1] === state.board[4] && state.board[4] === state.board[7]) {
+      gameEnd(cell);
       alert(`${state.board[1]} has won the game!`);
-      gameEnd(cell);
     } else if (state.board[0] === state.board[4] && state.board[4] === state.board[8]) {
+      gameEnd(cell);
       alert(`${state.board[0]} has won the game!`);
-      gameEnd(cell);
     } else if (state.board[2] === state.board[4] && state.board[4] === state.board[6]) {
-      alert(`${state.board[2]} has won the game!`);
       gameEnd(cell);
+      alert(`${state.board[2]} has won the game!`);
     }
   } else if (cell.id === '5') {
     if (state.board[3] === state.board[4] && state.board[4] === state.board[5]) {
+      gameEnd(cell);
       alert(`${state.board[3]} has won the game!`);
-      gameEnd(cell);
     } else if (state.board[2] === state.board[5] && state.board[5] === state.board[8]) {
-      alert(`${state.board[2]} has won the game!`);
       gameEnd(cell);
+      alert(`${state.board[2]} has won the game!`);
     }
   } else if (cell.id === '6') {
     if (state.board[2] === state.board[4] && state.board[4] === state.board[6]) {
+      gameEnd(cell);
       alert(`${state.board[2]} has won the game!`);
-      gameEnd(cell);
     } else if (state.board[6] === state.board[7] && state.board[7] === state.board[8]) {
+      gameEnd(cell);
       alert(`${state.board[6]} has won the game!`);
-      gameEnd(cell);
     } else if (state.board[0] === state.board[3] && state.board[3] === state.board[6]) {
-      alert(`${state.board[0]} has won the game!`);
       gameEnd(cell);
+      alert(`${state.board[0]} has won the game!`);
     }
   } else if (cell.id === '7') {
     if (state.board[6] === state.board[7] && state.board[7] === state.board[8]) {
+      gameEnd(cell);
       alert(`${state.board[6]} has won the game!`);
-      gameEnd(cell);
     } else if (state.board[1] === state.board[4] && state.board[4] === state.board[7]) {
-      alert(`${state.board[1]} has won the game!`);
       gameEnd(cell);
+      alert(`${state.board[1]} has won the game!`);
     }
   } else if (cell.id === '8') {
     if (state.board[6] === state.board[7] && state.board[7] === state.board[8]) {
+      gameEnd(cell);
       alert(`${state.board[6]} has won the game!`);
-      gameEnd(cell);
     } else if (state.board[2] === state.board[5] && state.board[5] === state.board[8]) {
+      gameEnd(cell);
       alert(`${state.board[2]} has won the game!`);
-      gameEnd(cell);
     } else if (state.board[0] === state.board[4] && state.board[4] === state.board[8]) {
-      alert(`${state.board[0]} has won the game!`);
       gameEnd(cell);
+      alert(`${state.board[0]} has won the game!`);
     }
   }
+  if (state.moveCount === 9 && state.gameOver === false) {
+    state.tieCount++;
+    state.tieflag = 1;
+    gameEnd(cell);
+    alert(`it's a tie!`);
+
+  } // i need a check for all items being filled and then making a tie, i can use a moveCount perhaps
 };
 
 var gameEnd = function (cell) {
-  const score = document.getElementById('score');
-
-  console.log('cell', cell);
-  let xoScore = cell.innerText.toLowerCase() + 'Score';
-  console.log('cell.innerText + Score', xoScore);
-  state[xoScore] = state[xoScore] + 1;
-  console.log('state[xoScore]', state[xoScore]);
-  console.log('xoScore', xoScore);
   state.gameOver = true;
+  console.log('state.tieflag', state.tieflag);
+  if (!state.tieflag) {
+    console.log('cell', cell);
+    let xoScore = cell.innerText.toLowerCase() + 'Score';
+    console.log('cell.innerText + Score', xoScore);
+    state[xoScore] = state[xoScore] + 1;
+    console.log('xoScore = ', xoScore);
+    console.log(state[xoScore]);
+  }
+
   if (state.gameOver === true) {
     removeCellsEventListeners();
-    let temp = score;
-    body.removeChild(score);
-    let p = document.createElement('p');
-    let text = document.createTextNode(`X: ${state.xScore}, O: ${state.oScore}`);
-    p.appendChild(text);
-    body.appendChild(p);
-
+    renderScore();
   }
 
 
@@ -291,9 +296,24 @@ var gameEnd = function (cell) {
 
 };
 
+var renderScore = function () {
+  const score = document.getElementById('score');
+  let temp = score;
+  console.log('temp', temp);
+  body.removeChild(score);
+  let p = document.createElement('p');
+
+  let text = document.createTextNode(`X: ${state.xScore}, O: ${state.oScore}, ties: ${state.tieCount}`);
+  p.appendChild(text);
+  p.id = 'score';
+  body.appendChild(p);
+
+};
 
 var gameStart = function () {
   state.gameOver = false;
+  state.moveCount = 0;
+  state.tieflag = 0;
   state.board = [null, null, null, null, null, null, null, null, null, null];
   giveCellsEventListeners();
 };
