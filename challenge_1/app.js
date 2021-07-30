@@ -67,10 +67,6 @@ let oScore = 0; //total wins
 */
 let xWin = false;
 let oWin = false;
-
-cells[8].innerText = 'X';
-console.log(cells[8].innerText);
-console.log(JSON.stringify(cells[0].innerText));
 //when either of these become true, increment the corresponding score - and game is over?
 
 
@@ -94,14 +90,14 @@ var giveCellsEventListeners = function () {
 };
 
 //table.on('click', 'td', clickFunction)
-var clickFunction = function (cell) {
-  console.log('you were clicked pog', cell);
-  if (cell.innerText !== '') {
+var clickFunction = function (click) {
+  console.log('you were clicked pog', this.innerText);
+  if (this.innerText === '') {
     if (state.turn === true) {
-      cell.innerText = 'X';
+      this.innerText = 'X';
       state.turn = !state.turn;
     } else {
-      cell.innerText = 'O';
+      this.innerText = 'O';
       state.turn = !state.turn;
     }
   } else {
@@ -109,7 +105,6 @@ var clickFunction = function (cell) {
   }
 
 };
-
 giveCellsEventListeners();
 
 
