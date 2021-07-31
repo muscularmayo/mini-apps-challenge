@@ -314,6 +314,6 @@ var gameStart = function () {
   state.gameOver = false;
   state.moveCount = 0;
   state.tieflag = 0;
-  state.board = [null, null, null, null, null, null, null, null, null, null];
+  state.board = [null, null, null, null, null, null, null, null, null];
   giveCellsEventListeners();
 };
