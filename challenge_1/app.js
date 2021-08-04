@@ -169,6 +169,7 @@ var checkWinningBoard = function(cell) {
 }; my game winning function is failing on 3 nulls rn lol, null wins! smh
 */
 
+// this function can be rewritten with a loop i suppose!
 var checkWinningBoard = function(cell) {
   console.log(state.moveCount);
   if (cell.id === '0') {
