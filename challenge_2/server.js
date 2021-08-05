@@ -12,7 +12,16 @@ You may also assume that child records in the JSON will always be in a property 
 
 app.get('/', (req, res) => {
   console.log('hello2');
-  res.send('test2');
+  res.statusCode = 200;
+  res.end('test /');
 });
+
+app.get('/generate', (req, res) => {
+  console.log('get /generate');
+  res.statusCode = 200;
+  res.end('test /generate');
+});
+
+
 
 app.listen(port, () => console.log('listening on port:' + port));
