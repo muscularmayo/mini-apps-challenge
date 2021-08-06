@@ -4,14 +4,25 @@ const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
 
+const { json2csv } = require('json-2-csv');
+const fields = ['firstName', 'lastName', 'county', 'city', 'role', 'sales'];
+
+
+
+
+//const json2csv = require('json-2-csv').parse;
+
+
+//we will use this after making sure it's json!
 const app = Express();
 const port = 3000;
 
-app.use(Express.static('client'));
+
 app.use(bodyParser.urlencoded({
   extended: true,
 })); //all the routing will go through this now
 app.use(bodyParser.json());
+app.use(Express.static('client'));
 
 /*
 client-server app that converts json to csv
@@ -40,10 +51,15 @@ app.post('/generate', (req, res) => {
   console.log('post /generate');
   //res.sendFile() perhaps this is the move
   console.log('hello');
-  res.statusCode = 200;
   console.log(req.body);
   req.body = JSON.stringify(req.body);
-  res.end(req.body);
+  const json2csvParser = new json2csv;
+
+  console.log(json2csv);
+  const csv = json2csv.parse(req.body);
+  console.log(csv);
+  res.header('Content-Type', 'text/csv');
+  res.end(csv);
 });
 
 
