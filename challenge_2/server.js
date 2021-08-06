@@ -1,8 +1,17 @@
 //import Express from 'express';
-var Express = require('express');
+const Express = require('express');
+const fs = require('fs');
+const path = require('path');
+const bodyParser = require('body-parser');
+
 const app = Express();
 const port = 3000;
+
 app.use(Express.static('client'));
+app.use(bodyParser.urlencoded({
+  extended: true,
+})); //all the routing will go through this now
+app.use(bodyParser.json());
 
 /*
 client-server app that converts json to csv
@@ -16,8 +25,7 @@ the client must be able to submit json data to the server, and the server render
 can use jquery on client, can use bodyparser for express middleware
 
 at this point, it seems like i have a index.html that contains a button and a form.
-they enter JSON into the form, they hit submit, submit does some type of native GET
-from there i guess it should hit the /generate post? which should json.parse/bodyparser and then this should give us back some type of CSV value?
+they enter JSON into the form, they hit submit, submit does some type of native POST from there i guess it should hit the /generate post? which should json.parse/bodyparser and then this should give us back some type of CSV value?
 
 */
 
@@ -30,8 +38,12 @@ app.get('/', (req, res) => {
 
 app.post('/generate', (req, res) => {
   console.log('post /generate');
+  //res.sendFile() perhaps this is the move
+  console.log('hello');
   res.statusCode = 200;
-  res.end('test post /generate');
+  console.log(req.body);
+  req.body = JSON.stringify(req.body);
+  res.end(req.body);
 });
 
 
