@@ -2,18 +2,10 @@
 const Express = require('express');
 const fs = require('fs');
 const path = require('path');
+
 const bodyParser = require('body-parser');
 
-const { json2csv } = require('json-2-csv');
-const fields = ['firstName', 'lastName', 'county', 'city', 'role', 'sales'];
 
-
-
-
-//const json2csv = require('json-2-csv').parse;
-
-
-//we will use this after making sure it's json!
 const app = Express();
 const port = 3000;
 
@@ -21,47 +13,105 @@ const port = 3000;
 app.use(bodyParser.urlencoded({
   extended: true,
 })); //all the routing will go through this now
-app.use(bodyParser.json());
+app.use(bodyParser.json()); //i can manually put this middleware in the post
 app.use(Express.static('client'));
 
+
+
+
+
 /*
-client-server app that converts json to csv
-
-The server must flatten the JSON hierarchy, mapping each item/object in the JSON to a single line of CSV report (see included sample output), where the keys of the JSON objects will be the columns of the CSV report.
-You may assume the JSON data has a regular structure and hierarchy (see included sample file). In other words, all sibling records at a particular level of the hierarchy will have the same set of properties, but child objects might not contain the same properties. In all cases, every property you encounter must be present in the final CSV output.
-You may also assume that child records in the JSON will always be in a property called `children`.
-
-the client must be able to submit json data to the server, and the server renders that into csv, and sends it back to the client
-
-can use jquery on client, can use bodyparser for express middleware
-
-at this point, it seems like i have a index.html that contains a button and a form.
-they enter JSON into the form, they hit submit, submit does some type of native POST from there i guess it should hit the /generate post? which should json.parse/bodyparser and then this should give us back some type of CSV value?
-
+helper function zone, middleware?
 */
 
 
+const generateCSV = function(data) {
+
+  const dataKeysArray = Object.keys(data);
+
+  const generateColumns = function(data) {
+    //data is going to be req.body, maybe req.body.json2csv unsure, which is currently a object for us
+    console.log(data); //pure object
+
+    let dataColumnNames = '';
+    //firstName,lastName,county,city,role,sales
+    for (var i = 0; i < dataKeysArray.length - 1; i++) {
+      dataColumnNames += dataKeysArray[i] + ',';
+    }
+    dataColumnNames += '\n';
+    return dataColumnNames;
+
+  };
+  let dataColumns = generateColumns(data);
+
+  const generateCSVInfo = function(data) {
+    let csvInfo = '';
+    for (var i = 0; i < dataKeysArray.length; i++) {
+      let last = dataKeysArray[dataKeysArray.length - 2];
+      if (dataKeysArray[i] !== 'children' && dataKeysArray[i] !== last) {
+        csvInfo += data[dataKeysArray[i]] + ',';
+      } else if (dataKeysArray[i] === last) {
+        csvInfo += data[dataKeysArray[i]] + '\n';
+      } else if (dataKeysArray[i] === 'children' && data.children.length > 0) {
+        for (var x = 0; x < data.children.length; x++) {
+          csvInfo += generateCSVInfo(data.children[x]);
+        }
+      }
+    }
+    return csvInfo;
+  };
+  const csvInfo = generateCSVInfo(data);
+  //console.log('csvInfo', csvInfo);
+  return dataColumns + csvInfo;
+
+
+};
+
+
+
+
+
+/*
+helper function zone end
+*/
+
+
+
+
+
+
+/*
+server routes
+*/
 app.get('/', (req, res) => {
-  console.log('hello2');
+  console.log('get /');
   res.statusCode = 200;
-  res.end('test /');
+  res.end('get /');
 });
+
+//json2csv textarea name
 
 app.post('/generate', (req, res) => {
   console.log('post /generate');
-  //res.sendFile() perhaps this is the move
-  console.log('hello');
-  console.log(req.body);
-  req.body = JSON.stringify(req.body);
-  const json2csvParser = new json2csv;
 
-  console.log(json2csv);
-  const csv = json2csv.parse(req.body);
-  console.log(csv);
+  //console.log(req.body.json2csv);
+  //req.body = JSON.stringify(req.body); not necessary to stringify, function will parse
+
+  //console.log(req.body);
+  const jsonInfo = req.body;
+
+  let csvInfo = generateCSV(req.body);
+  console.log('csvinfo', csvInfo);
+  //here we must turn req.body into csv req.body and then send it in end
   res.header('Content-Type', 'text/csv');
-  res.end(csv);
+  res.end(csvInfo);
 });
 
 
 
-app.listen(port, () => console.log('listening on port:' + port));
+app.listen(port, (err) => {
+  if (err) {
+    console.log(err);
+  }
+  console.log('listening on port:' + port);
+});

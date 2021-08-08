@@ -1,14 +1,16 @@
 <html>
   <head>
-
+    <title> json to csv converter </title>
   </head>
   <body>
+    <h1> json to csv converter </h1>
     <form method="POST" action="/" id="form1">
-      <br> your JSON input <input type="text" name="json"> </form> <br>
-      <input type="submit">
+      <textarea form="form1" type="text" name="json2csv" rows="5" cols="50"></textarea>
+      <input action="/" method="POST" type="submit" value="submit">
     </form>
     <!-- <button type="submit" form="form1"> submit </button> -->
   </body>
+  <script src="app.js"></script>
 </html>
 
-<!-- i need to connect my form submitting to req.body somehow? once that is connected the parsing is easy -->
+<!-- i need to connect my form submitting to req.body somehow? once that is connected the parsing is straightforward, not easy lol -->
