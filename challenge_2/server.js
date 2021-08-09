@@ -11,7 +11,7 @@ const port = 3000;
 
 
 app.use(bodyParser.urlencoded({
-  extended: true,
+  extended: false,
 })); //all the routing will go through this now
 app.use(bodyParser.json()); //i can manually put this middleware in the post
 app.use(Express.static('client'));
@@ -46,8 +46,9 @@ const generateCSV = function(data) {
 
   const generateCSVInfo = function(data) {
     let csvInfo = '';
+    let last = dataKeysArray[dataKeysArray.length - 2];
     for (var i = 0; i < dataKeysArray.length; i++) {
-      let last = dataKeysArray[dataKeysArray.length - 2];
+
       if (dataKeysArray[i] !== 'children' && dataKeysArray[i] !== last) {
         csvInfo += data[dataKeysArray[i]] + ',';
       } else if (dataKeysArray[i] === last) {
@@ -62,7 +63,13 @@ const generateCSV = function(data) {
   };
   const csvInfo = generateCSVInfo(data);
   //console.log('csvInfo', csvInfo);
-  return dataColumns + csvInfo;
+  const form = `
+  <form method="POST" action="/generate" id="form1">
+    <textarea form="form1" type="text" name="json2csv" rows="5" cols="50"></textarea>
+    <input type="submit" value="submit">
+  </form><br>`;
+
+  return form + dataColumns + csvInfo;
 
 
 };
@@ -91,7 +98,7 @@ app.get('/', (req, res) => {
 
 //json2csv textarea name
 
-app.post('/generate', (req, res) => {
+app.post('/', (req, res) => {
   console.log('post /generate');
 
   //console.log(req.body.json2csv);
@@ -103,8 +110,13 @@ app.post('/generate', (req, res) => {
   let csvInfo = generateCSV(req.body);
   console.log('csvinfo', csvInfo);
   //here we must turn req.body into csv req.body and then send it in end
-  res.header('Content-Type', 'text/csv');
-  res.end(csvInfo);
+  //res.header('Content-Type', 'text/csv');
+  //res.header('Location', 'http://www.yoursite.com/home-page.html');
+  res.format({
+    html: function() {
+      res.send(csvInfo);
+    }
+  });
 });
 
 
