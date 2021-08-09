@@ -2,6 +2,7 @@
 const Express = require('express');
 const fs = require('fs');
 const path = require('path');
+const server = require('http').createServer(app);
 
 const bodyParser = require('body-parser');
 
@@ -64,7 +65,7 @@ const generateCSV = function(data) {
   const csvInfo = generateCSVInfo(data);
   //console.log('csvInfo', csvInfo);
   const form = `
-  <form method="POST" action="/generate" id="form1">
+  <form method="POST" action="/" id="form1">
     <textarea form="form1" type="text" name="json2csv" rows="5" cols="50"></textarea>
     <input type="submit" value="submit">
   </form><br>`;
@@ -93,7 +94,7 @@ server routes
 app.get('/', (req, res) => {
   console.log('get /');
   res.statusCode = 200;
-  res.end('get /');
+  res.render('index');
 });
 
 //json2csv textarea name
@@ -121,7 +122,7 @@ app.post('/', (req, res) => {
 
 
 
-app.listen(port, (err) => {
+server.listen(port, (err) => {
   if (err) {
     console.log(err);
   }
