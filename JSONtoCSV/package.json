@@ -1,0 +1,25 @@
+{
+  "name": "jsontocsv",
+  "version": "1.0.0",
+  "description": "rendering csv from json form input",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/muscularmayo/mini-apps-challenge.git"
+  },
+  "author": "muscularmayo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/muscularmayo/mini-apps-challenge/issues"
+  },
+  "homepage": "https://github.com/muscularmayo/mini-apps-challenge#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mocha": "^9.0.3",
+    "node": "^16.6.1"
+  }
+}

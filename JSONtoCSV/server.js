@@ -65,7 +65,7 @@ const generateCSV = function(data) {
   //console.log('csvInfo', csvInfo);
   const form = `
   <form method="POST" action="http://localhost:3000/" id="form1">
-    <textarea form="form1" type="text" name="json2csv" rows="5" cols="50"></textarea>
+    <textarea form="form1" type="text" name="text" rows="5" cols="50"></textarea>
     <input type="submit" value="submit">
   </form><br><p>`;
 
